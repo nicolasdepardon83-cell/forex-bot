@@ -1,12 +1,17 @@
-# Forex Bot V3.3 — Android / iPad
+# Forex Bot V3.4 — validation chronologique mobile
 
-Prototype gratuit, usage personnel, simulation exclusivement. Aucune API ni ordre réel.
+Usage personnel, simulation exclusivement, budget logiciel 0 €. Application statique GitHub Pages compatible Android et iPad.
 
-## Mise à jour GitHub Pages
-Dans le dépôt `forex-bot`, remplacer `index.html`, `sw.js`, `README.md` et ajouter `engine.js` à la racine. Conserver `manifest.webmanifest`, `icon.svg`, `.nojekyll`. Valider chaque changement avec Commit changes. Ouvrir ensuite l’URL GitHub Pages et actualiser (éventuellement fermer et rouvrir l’application PWA).
+## Mise à jour
+Dans le dépôt GitHub `forex-bot`, remplacer `index.html`, `engine.js`, `sw.js`, `README.md`. Conserver `manifest.webmanifest` et `icon.svg`. Après publication, recharger la page (si besoin supprimer les données de site Safari pour forcer la mise à jour du service worker).
 
-## Historique
-CSV avec en-tête `time,open,high,low,close`, séparateur virgule ou point-virgule, dates ISO avec UTC explicite (exemple `2024-01-02T10:00:00Z`). Bougies H1 croissantes, >=100 lignes. Les données doivent provenir d'une source documentée ; aucun jeu de prix réel n'est inclus. Le filtre d'espacement autorise certains gaps de weekend et les écarts DST de 2 heures, mais exige une revue manuelle des données.
+## Import historique réel
+Importer un fichier CSV **EUR/USD H1** de source vérifiable : `time,open,high,low,close`, dates ISO UTC (exemple `2024-01-02T00:00:00Z`), ordre chronologique, minimum 200 lignes. Les données ne sont pas incluses, et aucune cotation en temps réel n'est intégrée.
 
-## Hypothèses et limites
-Long uniquement : croisement EMA20/EMA50 sur clôture, entrée à ouverture suivante ; ATR14, stop 2 ATR, objectif 3 ATR ; spread et slippage paramétrables ; risque cible 0,25 % du capital initial ; exposition sans levier ; seuil journalier 5 € et global 15 € ; arrêt définitif pour le backtest après déclenchement. Calcul EUR/USD approximatif via conversion au prix de sortie. Les stops, gaps, coûts et drawdowns intrabougie sont approximés à partir d'OHLC et ne garantissent aucun plafond de perte. Le backtest ne simule ni marge courtier, ni swap, ni commissions distinctes, ni carnet bid/ask. Aucun résultat n'autorise un passage en réel.
+## Nouveautés
+- Découpage chronologique 70/30, 80/20 ou 60/40. Chaque période est simulée indépendamment avec un capital initial de 500 €, sans optimisation de paramètres.
+- Contrôle des écarts temporels et rejet des grands trous hors week-end ; ce contrôle reste indicatif (jours fériés, horaires de marché et DST doivent être vérifiés).
+- Comparaison des résultats par période, indicateurs existants, journal CSV.
+
+## Limites
+Les données OHLC ne permettent pas de reconstruire fidèlement bid/ask, spread variable, frais de financement, exécutions intrabougie ou gaps. La conversion de P&L est une approximation et les coupe-circuits ne garantissent pas les pertes. Les paramètres ne sont pas optimisés, et les performances ne sont pas prouvées. Ne pas utiliser pour trader en réel.
